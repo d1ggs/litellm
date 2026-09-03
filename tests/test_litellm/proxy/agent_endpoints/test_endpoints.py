@@ -1,3 +1,4 @@
+import json
 from typing import Final
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -1085,7 +1086,7 @@ class _DbBackedProxyConfig:
         )
 
     async def save_config(self, new_config: dict[str, dict[str, object]]) -> None:
-        self.stored_litellm_settings = dict(new_config.get("litellm_settings") or {})
+        self.stored_litellm_settings = json.loads(json.dumps(new_config.get("litellm_settings") or {}))
 
 
 def test_make_agent_public_twice_keeps_both_agents_public(monkeypatch: pytest.MonkeyPatch) -> None:
